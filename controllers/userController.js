@@ -115,3 +115,49 @@ exports.getAllUsers = async (request, response, next) => {
         next(error)
     }
 }
+
+//get user by id
+
+exports.getUserById = async (request, response, next) => {
+    try {
+        let userId = request.params.userId;
+        let user = await User.findById(userId).select('-password');
+        if (!user) {
+            throw new NotFoundError(`User with id ${userId} not found`);
+        }
+        return response.status(200).json({
+            success: true,
+            responseMessage: `User with id ${userId}`,
+            data: user
+        })
+    } catch (error) {
+        next(error)
+    }
+}
+
+//update user by id
+
+exports.updateUserById = async (request, response, next) => {
+    try {
+        let user_id = request.params.id;
+
+        //check if the id is valid
+        if (!Mongoose.isValidObjectId(user_id)) {
+            throw new NotFoundError(`Invalid user id ${user_id}`)
+        }
+        
+        //check if the user exist
+        let user = await User.findOne({ email })
+        if (!user) {
+            throw new NotFoundError('No User found')
+        }
+        let updatedUser = await User.findByIdAndUpdate({ user_id, ...request.body }, { new: true })
+        return response.status(200).json({
+            success: true,
+            responseMessage: ' User updated ', data: updatedUser
+        })
+    } catch (error) {
+        next(error)
+    }
+
+}
