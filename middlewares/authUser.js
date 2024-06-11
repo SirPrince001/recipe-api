@@ -1,8 +1,9 @@
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const User = require('../models/user')
+const {ValidationError , NotFoundError} = require('../helper/error')
 
-exports.authMiddleware = async(request , response , next)=>{
+const authMiddleware = async(request , response , next)=>{
     try {
         // accept user token
         let token =  request.headers.authorization;
@@ -14,6 +15,7 @@ exports.authMiddleware = async(request , response , next)=>{
         let decodedToken = jwt.verify(token, process.env.JWT_SECRET);
         // check if user exist
         let user = await User.findOne({email :decodedToken.email})
+        console.log(user.email)
         if (!user) {
             throw new NotFoundError(`User with email ${decodedToken.email} not found`);
         }
@@ -24,3 +26,5 @@ exports.authMiddleware = async(request , response , next)=>{
         next(error)
     }
 } 
+
+module.exports = authMiddleware;
