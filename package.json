@@ -4,8 +4,9 @@
   "description": "A Recipe api",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev":"nodemon"
+    "test": "jest --timeout=15000 --detectOpenHandles",
+    "dev": "nodemon" ,
+    "start": "node index.js"
   },
   "author": "Prince Bassey",
   "license": "ISC",
@@ -19,6 +20,8 @@
     "morgan": "^1.10.0"
   },
   "devDependencies": {
-    "nodemon": "^3.1.3"
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.3",
+    "supertest": "^7.0.0"
   }
 }
