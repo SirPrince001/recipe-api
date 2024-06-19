@@ -10,7 +10,7 @@ module.exports = {
         })
         dbConnection.on('error', () => {
             console.log('Unable to connect to database');
-            process.exit(1);
+            process.exit(1); 
         })
     }
 } 
